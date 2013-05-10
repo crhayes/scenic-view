@@ -84,7 +84,7 @@ class View
 	 */
 	public function load($viewName)
 	{
-		$viewPath = $this->viewPath.DS.$viewName;
+		$viewPath = $this->viewPath.'/'.$viewName;
 
 		if ( ! file_exists($viewPath)) {
 			throw new CrappyViewException("This view is not scenic... view does not exist: $viewPath");
