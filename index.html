@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Scenic View by crhayes</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Scenic View</h1>
+        <p>Fast and simple view inheritance and templating.</p>
+
+        <p class="view"><a href="https://github.com/crhayes/scenic-view">View the Project on GitHub <small>crhayes/scenic-view</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/crhayes/scenic-view/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/crhayes/scenic-view/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/crhayes/scenic-view">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Scenic View</h1>
+
+<p>Scenic View is a tiny library that provides view and template inheritance. 
+The syntax is straight PHP but is very clean and expressive.</p>
+
+<p>The following examples use PHP short syntax (to provide cleaner views) which is fine
+if you have control over your own server. <strong>NOTE:</strong> you should definitely use <code>&lt;?php ?&gt;</code>
+if you are planning to distribute your code or do not have admin access to your server.</p>
+
+<h2>Loading and Rendering a View</h2>
+
+<div class="highlight"><pre><span class="nv">$view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Scenic\View</span><span class="p">(</span><span class="s1">'path/to/views'</span><span class="p">);</span>
+
+<span class="k">echo</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">'index.php'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="s1">'Welcome'</span><span class="p">,</span> <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Chris'</span><span class="p">));</span>
+</pre></div>
+
+<h2>View Inheritance and Templating</h2>
+
+<h3>Layouts</h3>
+
+<p>Create a layout (template) file that other files will extend. The <code>$show()</code> method displays
+a section of content that's defined by a child view extending it.</p>
+
+<div class="highlight"><pre><span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;&lt;?=</span> <span class="nv">$title</span> <span class="cp">?&gt;</span><span class="x">&lt;/title&gt;</span>
+<span class="x">&lt;/head&gt;</span>
+<span class="x">&lt;body&gt;</span>
+<span class="x">  </span><span class="cp">&lt;?</span> <span class="nv">$show</span><span class="p">(</span><span class="s1">'content'</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">&lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+</pre></div>
+
+<h3>Views</h3>
+
+<p>Create your view that extends the layout and provides the content for the section.</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span> <span class="nv">$extends</span><span class="p">(</span><span class="s1">'template.php'</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="cp">&lt;?</span> <span class="nv">$section</span><span class="p">(</span><span class="s1">'content'</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">  &lt;h1&gt;Welcome, </span><span class="cp">&lt;?</span><span class="o">=</span> <span class="nv">$name</span> <span class="cp">?&gt;</span><span class="x">&lt;/h1&gt;</span>
+<span class="cp">&lt;?</span> <span class="nv">$end</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<h3>Extending Parent's Content</h3>
+
+<p>What if you want to provide content in the parent, but extend that in the child? You can!</p>
+
+<p>Define a section in the template.</p>
+
+<div class="highlight"><pre><span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;&lt;?=</span> <span class="nv">$title</span> <span class="cp">?&gt;</span><span class="x">&lt;/title&gt;</span>
+<span class="x">&lt;/head&gt;</span>
+<span class="x">&lt;body&gt;</span>
+<span class="x">  </span><span class="cp">&lt;?</span> <span class="nv">$section</span><span class="p">(</span><span class="s1">'content'</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">    &lt;h1&gt;Welcome, </span><span class="cp">&lt;?</span><span class="o">=</span> <span class="nv">$name</span> <span class="cp">?&gt;</span><span class="x">&lt;/h1&gt;</span>
+<span class="x">  </span><span class="cp">&lt;?</span> <span class="nv">$end</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">&lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+</pre></div>
+
+<p>Use the <code>@parent</code> key in the view to specify where you want the parent content to appear.</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span> <span class="nv">$extends</span><span class="p">(</span><span class="s1">'template.php'</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="cp">&lt;?</span> <span class="nv">$section</span><span class="p">(</span><span class="s1">'content'</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">  @parent</span>
+<span class="x">  &lt;p&gt;We hope you have a great stay!&lt;/p&gt;</span>
+<span class="cp">&lt;?</span> <span class="nv">$end</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>or</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span> <span class="nv">$extends</span><span class="p">(</span><span class="s1">'template.php'</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="cp">&lt;?</span> <span class="nv">$section</span><span class="p">(</span><span class="s1">'content'</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">  &lt;p&gt;We hope you have a great stay!&lt;/p&gt;</span>
+<span class="x">  @parent</span>
+<span class="cp">&lt;?</span> <span class="nv">$end</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<h3>Partials</h3>
+
+<p>Including partial views, like headers or footers, is easy as well.</p>
+
+<div class="highlight"><pre><span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;&lt;?=</span> <span class="nv">$title</span> <span class="cp">?&gt;</span><span class="x">&lt;/title&gt;</span>
+<span class="x">&lt;/head&gt;</span>
+<span class="x">&lt;body&gt;</span>
+<span class="x">  </span><span class="cp">&lt;?</span> <span class="nv">$section</span><span class="p">(</span><span class="s1">'content'</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">    &lt;h1&gt;Welcome, </span><span class="cp">&lt;?</span><span class="o">=</span> <span class="nv">$name</span> <span class="cp">?&gt;</span><span class="x">&lt;/h1&gt;</span>
+<span class="x">  </span><span class="cp">&lt;?</span> <span class="nv">$end</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">  </span><span class="cp">&lt;?</span> <span class="nv">$include</span><span class="p">(</span><span class="s1">'footer.php'</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">&lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/crhayes">crhayes</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
