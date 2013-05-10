@@ -1,0 +1,23 @@
+{
+	"name": "crhayes/scenic-view",
+	"description": "Fast and simple view inheritance and templating.",
+	"type": "library",
+	"keywords": ["view", "view inheritance", "template", "templating"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Chris Hayes",
+			"email": "chris@chrishayes.ca",
+			"homepage": "http://www.chrishayes.ca",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.3"
+	},
+	"autoload": {
+		"psr-0": {
+			"Scenic": "lib/"
+		}
+	}
+}
